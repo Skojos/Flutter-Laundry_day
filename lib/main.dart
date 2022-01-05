@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry_day/models/user.dart';
 import 'package:laundry_day/providers/calendar_event.dart';
-import 'package:laundry_day/screens/auth/auth_home.dart';
-import 'package:laundry_day/screens/home/home.dart';
 import 'package:laundry_day/screens/wrapper.dart';
 import 'package:laundry_day/services/authenticate.dart';
 
@@ -22,14 +21,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User?>.value(
-    value: AuthService().onAuthChanges, 
-    initialData: null, 
-    child: const MaterialApp(
-      title: "Laundry Day",
-    home: Wrapper(),
-    ),
+    return StreamProvider<AuthUser?>.value(
+      value: AuthService().onAuthChanges,
+      initialData: null,
+      child: const MaterialApp(
+        title: "Laundry Day",
+        home: Wrapper(),
+      ),
     );
-    
   }
 }

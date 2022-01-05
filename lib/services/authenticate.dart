@@ -1,18 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:laundry_day/models/user.dart';
+import 'package:laundry_day/services/user_service.dart';
 
-//Instance of Firebase Auth
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore database = FirebaseFirestore.instance;
 
 class AuthService {
-  //Stream for the state
-  Stream<User?> get onAuthChanges {
-    return _auth.authStateChanges().map((item) => item);
+//Custom user from FirebaseAuthUser
+  AuthUser? _customUser(User? user) {
+    return user != null ? AuthUser(uid: user.uid) : null;
+  }
+
+  //Stream for AuthState
+  Stream<AuthUser?> get onAuthChanges {
+    return _auth.authStateChanges().map((user) => _customUser(user));
   }
 
   //Register(Email)
-  Future registerWithEmailAndPassword(email, password) async {
+  Future<User?> registerWithEmailAndPassword(CustomUser user) async {
     UserCredential result = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: user.email, password: user.password);
+
+    final UserService _userService = UserService(uid: result.user!.uid);
+    await _userService.registerUserOnCollection(user);
     return result.user;
   }
 

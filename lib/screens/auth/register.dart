@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry_day/models/user.dart';
 import 'package:laundry_day/services/authenticate.dart';
 import 'package:laundry_day/shared/constant.dart';
 import 'package:laundry_day/shared/loading.dart';
@@ -102,10 +104,12 @@ class _RegisterState extends State<Register> {
                             setState(() {
                               loading = true;
                               Navigator.pop(
-                                context,
-                                _auth.registerWithEmailAndPassword(email, password)
-                              );
-                           
+                                  context,
+                                  _auth.registerWithEmailAndPassword(CustomUser(
+                                      email: email,
+                                      password: password,
+                                      apparmentNumber: '',
+                                      name: "")));
                             });
                           }
                         },

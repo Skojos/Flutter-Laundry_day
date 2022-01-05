@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry_day/models/user.dart';
 import 'package:laundry_day/screens/auth/auth_home.dart';
 import 'package:laundry_day/screens/home/calendar.dart';
 import 'package:laundry_day/screens/home/home.dart';
@@ -10,14 +11,12 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User?>(context);
-    
+    final user = Provider.of<AuthUser?>(context);
+//Navigate user based on current AuthState
     if (user == null) {
       return AuthHome();
     } else {
       return Home();
     }
-    
-
   }
 }
