@@ -111,7 +111,7 @@ class _CalendarState extends State<Calendar> {
       startingDayOfWeek: StartingDayOfWeek.monday,
       focusedDay: _focusedDay,
       firstDay: DateTime.utc(2021, 12, 01),
-      lastDay: DateTime(2022),
+      lastDay: DateTime(2023),
       eventLoader: _getEventsfromDay,
       calendarFormat: _calendarFormat,
       onFormatChanged: (CalendarFormat _format) {

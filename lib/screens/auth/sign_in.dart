@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry_day/services/authenticate.dart';
 import 'package:laundry_day/shared/constant.dart';
 import 'package:laundry_day/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
-
-  const SignIn({Key? key, required this.toggleView}) : super(key: key);
+  const SignIn({Key? key}) : super(key: key);
 
   @override
   _SignInState createState() => _SignInState();
@@ -13,6 +13,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
   bool loading = false;
 
   //Text Field state
@@ -30,21 +31,7 @@ class _SignInState extends State<SignIn> {
               backgroundColor: Colors.blue[400],
               elevation: 0.0,
               centerTitle: true,
-              title: const Text('Sign in'),
-              actions: [
-                TextButton.icon(
-                    onPressed: () {
-                      widget.toggleView();
-                    },
-                    icon: const Icon(
-                      Icons.person,
-                      color: Colors.black,
-                    ),
-                    label: const Text(
-                      'Register',
-                      style: TextStyle(color: Colors.black),
-                    ))
-              ],
+              title: const Text('Logga in'),
             ),
             body: Container(
               padding:
@@ -90,10 +77,20 @@ class _SignInState extends State<SignIn> {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               loading = true;
+                              error = "Wrong Credentials";
                             });
+                            dynamic result =
+                                await _auth.signIn(email, password);
+                            if (result == null) {
+                              setState(() {
+                                loading = false;
+                              });
+                            } else {
+                              Navigator.pop(context);
+                            }
                           }
                         },
-                        child: const Text('Sign in')),
+                        child: const Text('Logga in')),
                     const SizedBox(height: 20),
                     Text(error,
                         style:

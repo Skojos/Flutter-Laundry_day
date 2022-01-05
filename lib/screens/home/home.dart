@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:laundry_day/screens/home/calendar.dart';
+import 'package:laundry_day/services/authenticate.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,9 @@ class Home extends StatelessWidget {
         title: Text('Welcome user'),
         actions: [
           TextButton.icon(
-              onPressed: () async {},
+              onPressed: () async {
+                await _auth.signOut();
+              },
               icon: const Icon(
                 Icons.person,
                 color: Colors.black,
